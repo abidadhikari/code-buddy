@@ -80,7 +80,7 @@ footer a{
 .mainWrap{
     display: grid;
     grid-template-columns: 230px 1fr;
-    height: 100vh;
+    /* height: 100vh; */
 }
 .aside{
     background: #1c1e29;

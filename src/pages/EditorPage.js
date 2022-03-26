@@ -1,13 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { Navigate, useLocation, useNavigate,useParams } from "react-router-dom";
+import Actions from "../Actions";
 import Client from "../components/Client";
 import Editor from "../components/Editor";
+import { initSocket } from "../socket";
+
 
 function EditorPage(props) {
+  const socketRef=useRef(null);
+  const location=useLocation();
+  const reactNavigator=useNavigate();
+  const {roomId}=useParams();
   const [clients, setClients] = useState([
-    { socketId: 1, username: "Abid Ade" },
-    { socketId: 2, username: "Abida Ad" },
-    { socketId: 3, username: "John DOe" },
   ]);
+
+  const handleErrors=(err)=>{
+    console.log("socket error",err);
+    toast.error("socket connect failed")
+    reactNavigator("/")
+  }
+
+  useEffect(()=>{
+    const init=async()=>{
+      socketRef.current=await initSocket();
+      socketRef.current.on('connect_error',(err)=>{handleErrors(err)});
+      socketRef.current.on('connect_failed',(err)=>{handleErrors(err)});
+      socketRef.current.emit(Actions.JOIN,{
+        roomId,
+        username:location.state?.username
+      })
+
+      //listening for joined event
+      socketRef.current.on(Actions.JOINED,({clients,username,socketId})=>{
+        if(username!=location.state?.username){
+          toast.success(`${username} joined the room`);
+          console.log(`${username} joined the room`);
+
+        }
+        setClients(clients);
+      })
+    }
+    init();
+  },[])
+
+
+
+  if(!location.state){
+    return <Navigate/>
+  }
   return (
     <div>
       <div className="mainWrap">
