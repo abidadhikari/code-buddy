@@ -1,38 +1,77 @@
-.App {
-  text-align: center;
+.homePageWrapper{
+display: flex;
+align-items: center;
+justify-content: center;
+color:#fff;
+height: 100vh;
+}
+.formWrapper{
+    background-color: #282a36;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width:90%;
+}
+.homePageLogo{
+    height: 80px;
+    margin-bottom: 30px;
+}
+.inputGroup{
+    display: flex;
+    flex-direction: column;
+
+}
+footer{
+    position:fixed;
+    bottom:5%;
+}
+footer a{
+    color: #F7BF50;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.mailLabel{
+    margin: 0 0 20px 0;
+}
+.inputBox{
+    padding: 10px;
+    border-radius: 5px;
+    outline:none;
+    border:none;
+    margin-bottom: 14px;
+    background: #eee;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* btn joinBtn */
+.btn{
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transform:all 0.3s ease-in-out;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.joinBtn{
+    background-color: #F7BF50;
+    width: 100px;
+    margin-left: auto;
 }
-
-.App-link {
-  color: #61dafb;
+.joinBtn:hover{
+    background-color: #d49e31;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.createInfo{
+    
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.createNewBtn{
+    color: #F7BF50;
+    text-decoration: none;
+    border-bottom: 1px solid #F7BF50;
+    transform:all 0.3s ease-in-out;
+}
+.createNewBtn:hover{
+    color: #d49e31;
 }
