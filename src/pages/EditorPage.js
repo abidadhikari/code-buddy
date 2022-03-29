@@ -12,8 +12,7 @@ function EditorPage(props) {
   const location=useLocation();
   const reactNavigator=useNavigate();
   const {roomId}=useParams();
-  const [clients, setClients] = useState([
-  ]);
+  const [clients, setClients] = useState([]);
 
   const handleErrors=(err)=>{
     console.log("socket error",err);
@@ -33,15 +32,29 @@ function EditorPage(props) {
 
       //listening for joined event
       socketRef.current.on(Actions.JOINED,({clients,username,socketId})=>{
-        if(username!=location.state?.username){
+        if(username!==location.state?.username){
           toast.success(`${username} joined the room`);
-          console.log(`${username} joined the room`);
+          // console.log(`${username} joined the room`);
 
         }
         setClients(clients);
       })
+
+
+      //listening for disconnected
+      socketRef.current.on(Actions.DISCONNECTED,({socketId,username})=>{
+        toast.success(`${username} left the room`);
+        setClients((prev)=>{
+          return prev.filter(client=>client.socketId!==socketId)
+        })
+      })
     }
     init();
+    return ()=>{
+      socketRef.current.disconnect();
+      socketRef.current.off(Actions.JOINED);
+      socketRef.current.off(Actions.DISCONNECTED);
+    }
   },[])
 
 

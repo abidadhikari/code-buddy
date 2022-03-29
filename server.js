@@ -23,7 +23,9 @@ const getAllConectedClients = (roomId) => {
 };
 
 io.on("connection", (socket) => {
+
   console.log("Socket Connected", socket.id);
+
   socket.on(Actions.JOIN, ({ roomId, username }) => {
     userSocketMap[socket.id] = username;
     socket.join(roomId);
@@ -36,6 +38,18 @@ io.on("connection", (socket) => {
       });
     });
   });
+
+  socket.on('disconnecting',()=>{
+    const rooms=[...socket.rooms];
+    rooms.forEach((roomId)=>{
+      socket.in(roomId).emit(Actions.DISCONNECTED,{
+        socketId:socket.id,
+        username:userSocketMap[socket.id]
+      })
+    });
+    delete userSocketMap[socket.id];
+    socket.leave();
+  })
 });
 
 const PORT = process.env.PORT || 5000;
